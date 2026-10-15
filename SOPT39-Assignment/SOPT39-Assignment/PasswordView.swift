@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RegexBuilder
 
 struct PasswordView: View {
     let email: String
@@ -15,8 +16,43 @@ struct PasswordView: View {
     @State private var showSheet = false
     @State private var showWelcomeView = false
     
-    private var isButtonDisabled: Bool {
-        password.isEmpty
+    let passwordRegex = Regex {
+        Anchor.startOfSubject
+        
+        Lookahead {
+            ZeroOrMore(.any)
+            CharacterClass(
+                ("a"..."z"),
+                ("A"..."Z")
+            )
+        }
+        
+        Lookahead {
+            ZeroOrMore(.any)
+            CharacterClass.digit
+        }
+        
+        Lookahead {
+            ZeroOrMore(.any)
+            CharacterClass.anyOf(
+                "!@#$%^&*()_+-=[]{}|;:,.<>?"
+            )
+        }
+        
+        Repeat(10...) {
+            CharacterClass(
+                ("a"..."z"),
+                ("A"..."Z"),
+                .digit,
+                .anyOf("!@#$%^&*()_+-=[]{}|;:,.<>?/")
+            )
+        }
+        
+        Anchor.endOfSubject
+    }
+    
+    private var isPasswordValid: Bool {
+        password.wholeMatch(of: passwordRegex) != nil
     }
     
     var body: some View {
@@ -52,7 +88,7 @@ struct PasswordView: View {
                     Text("영문, 숫자, 특수문자 포함 10글자 이상")
                         .font(.body2)
                 }
-                .foregroundStyle(isButtonDisabled ? .gray300 : .customGreen)
+                .foregroundStyle(isPasswordValid ? .customGreen : .gray300)
                 .padding(.horizontal, 35)
                 .padding(.bottom, 40)
                 
@@ -121,7 +157,7 @@ struct PasswordView: View {
                 
                 Spacer()
                 
-                PrimaryButtonView(title: "가입하기", isDisabled: isButtonDisabled) {
+                PrimaryButtonView(title: "가입하기", isDisabled: !isPasswordValid || nickname.isEmpty) {
                     showWelcomeView = true
                 }
             }

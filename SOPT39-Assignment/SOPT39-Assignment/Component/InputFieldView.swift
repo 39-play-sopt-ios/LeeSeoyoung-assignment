@@ -20,6 +20,18 @@ struct InputFieldView: View {
     @Binding var text: String
     @State var isPasswordVisible = false
     
+    init(
+        type: FieldType,
+        placeHolder: String,
+        isValid: Bool? = nil,
+        text: Binding<String>
+    ) {
+        self.type = type
+        self.placeHolder = placeHolder
+        self.isValid = isValid
+        self._text = text
+    }
+    
     var body: some View {
         HStack(spacing: 4) {
             inputField
