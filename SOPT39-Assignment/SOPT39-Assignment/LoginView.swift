@@ -36,24 +36,7 @@ struct LoginView: View {
                     .padding(.horizontal, 30)
                 
                 
-                TextField(
-                    "email",
-                    text: $email,
-                    prompt: Text("email@address.com")
-                        .font(.body2)
-                        .foregroundStyle(.gray250)
-                )
-                    .font(.body2)
-                    .textContentType(.emailAddress)
-                    .keyboardType(.emailAddress)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
-                    .padding(.horizontal, 15)
-                    .frame(height: 47)
-                    .background(.white)
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: 10)
-                    )
+                InputFieldView(type: .email, placeHolder: "email@address.com", text: $email)
                     .padding(.horizontal, 31)
                 
                 Spacer()
