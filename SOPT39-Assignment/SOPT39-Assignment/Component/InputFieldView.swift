@@ -17,6 +17,7 @@ struct InputFieldView: View {
     let placeHolder: String
     
     @Binding var text: String
+    @State var isPasswordVisible = false
     
     var body: some View {
         HStack(spacing: 4) {
@@ -24,6 +25,7 @@ struct InputFieldView: View {
             
             if (!text.isEmpty) {
                 clearButton
+                trailingButton
             }
         }
         .padding(.horizontal, 15)
@@ -53,17 +55,32 @@ struct InputFieldView: View {
                 .autocorrectionDisabled()
             
         case .password:
-            SecureField(
-                "password",
-                text: $text,
-                prompt: Text(placeHolder)
+            if isPasswordVisible {
+                TextField(
+                    "password",
+                    text: $text,
+                    prompt: Text(placeHolder)
+                        .font(.body2)
+                        .foregroundStyle(.gray250)
+                )
                     .font(.body2)
-                    .foregroundStyle(.gray250)
-            )
-                .font(.body2)
-                .textContentType(.password)
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled()
+                    .textContentType(.password)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+            } else {
+                SecureField(
+                    "password",
+                    text: $text,
+                    prompt: Text(placeHolder)
+                        .font(.body2)
+                        .foregroundStyle(.gray250)
+                )
+                    .font(.body2)
+                    .textContentType(.password)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+            }
+            
         }
     }
     
@@ -72,6 +89,20 @@ struct InputFieldView: View {
             text = ""
         } label: {
             Image(.closeSquare)
+        }
+    }
+    
+    @ViewBuilder
+    private var trailingButton: some View {
+        switch type {
+        case .email:
+            Image(.checkInvalid)
+        case .password:
+            Button {
+                isPasswordVisible.toggle()
+            } label: {
+                Image(isPasswordVisible ? .eyeSlash : .eye)
+            }
         }
     }
 }
