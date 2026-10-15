@@ -10,6 +10,10 @@ import SwiftUI
 struct LoginView: View {
     @State private var email = ""
     
+    private var isButtonDisabled: Bool {
+        email.isEmpty
+    }
+    
     var body: some View {
         ZStack {
             Color.backgroundWhite.edgesIgnoringSafeArea(.all)
@@ -41,21 +45,9 @@ struct LoginView: View {
                 
                 Spacer()
                 
-                Button {
+                PrimaryButtonView(title: "다음", isDisabled: isButtonDisabled) {
                     // login
-                } label: {
-                    Text("다음")
-                        .font(.medium)
-                        .foregroundStyle(.gray300)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 56)
-                        .background(.gray200)
-                        .clipShape(
-                            RoundedRectangle(cornerRadius: 10)
-                        )
-                        .padding(.bottom, 13)
                 }
-                .padding(.horizontal, 22)
             }
         }
     }

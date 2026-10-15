@@ -10,6 +10,10 @@ import SwiftUI
 struct PasswordView: View {
     @State private var password = ""
     
+    private var isButtonDisabled: Bool {
+        password.isEmpty
+    }
+    
     var body: some View {
         ZStack {
             Color.backgroundWhite.edgesIgnoringSafeArea(.all)
@@ -57,21 +61,9 @@ struct PasswordView: View {
                 
                 Spacer()
                 
-                Button {
+                PrimaryButtonView(title: "가입하기", isDisabled: isButtonDisabled) {
                     // signup
-                } label: {
-                    Text("가입하기")
-                        .font(.medium)
-                        .foregroundStyle(.gray300)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 56)
-                        .background(.gray200)
-                        .clipShape(
-                            RoundedRectangle(cornerRadius: 10)
-                        )
-                        .padding(.bottom, 13)
                 }
-                .padding(.horizontal, 22)
             }
             
         }
