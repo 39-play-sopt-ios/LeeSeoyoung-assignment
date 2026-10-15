@@ -19,6 +19,7 @@ struct InputFieldView: View {
     
     @Binding var text: String
     @State var isPasswordVisible = false
+    @FocusState private var isFocused: Bool
     
     init(
         type: FieldType,
@@ -35,6 +36,7 @@ struct InputFieldView: View {
     var body: some View {
         HStack(spacing: 4) {
             inputField
+                .focused($isFocused)
             
             if (!text.isEmpty) {
                 clearButton
@@ -48,6 +50,10 @@ struct InputFieldView: View {
         .clipShape(
             RoundedRectangle(cornerRadius: 10)
         )
+        .overlay {
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(isFocused ? focusedBorderColor : .clear, lineWidth: 1)
+        }
     }
     
     @ViewBuilder
@@ -116,6 +122,15 @@ struct InputFieldView: View {
             } label: {
                 Image(isPasswordVisible ? .eyeSlash : .eye)
             }
+        }
+    }
+    
+    private var focusedBorderColor: Color {
+        switch type {
+        case .email:
+            return .black
+        case .password:
+            return .gray200
         }
     }
 }
