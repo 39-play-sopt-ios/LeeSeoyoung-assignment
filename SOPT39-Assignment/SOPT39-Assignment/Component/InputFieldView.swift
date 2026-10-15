@@ -15,6 +15,7 @@ struct InputFieldView: View {
     
     let type: FieldType
     let placeHolder: String
+    let isValid: Bool?
     
     @Binding var text: String
     @State var isPasswordVisible = false
@@ -96,7 +97,7 @@ struct InputFieldView: View {
     private var trailingButton: some View {
         switch type {
         case .email:
-            Image(.checkInvalid)
+            Image(isValid == true ? .checkValid : .checkInvalid)
         case .password:
             Button {
                 isPasswordVisible.toggle()

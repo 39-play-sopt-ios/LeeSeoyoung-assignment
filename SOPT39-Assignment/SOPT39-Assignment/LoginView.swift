@@ -6,13 +6,35 @@
 //
 
 import SwiftUI
+import RegexBuilder
 
 struct LoginView: View {
     @State private var email = ""
     @State private var showPasswordView = false
     
-    private var isButtonDisabled: Bool {
-        email.isEmpty
+    let emailRegex = Regex {
+        Anchor.startOfSubject
+        
+        OneOrMore(.word)
+        
+        "@"
+        
+        OneOrMore(.word)
+        
+        "."
+        
+        Repeat(2...4) {
+            CharacterClass(
+                ("a"..."z"),
+                ("A"..."Z")
+            )
+        }
+        
+        Anchor.endOfSubject
+    }
+    
+    private var isEmailValid: Bool {
+        email.wholeMatch(of: emailRegex) != nil
     }
     
     var body: some View {
@@ -42,12 +64,12 @@ struct LoginView: View {
                         .padding(.horizontal, 30)
                     
                     
-                    InputFieldView(type: .email, placeHolder: "email@address.com", text: $email)
+                    InputFieldView(type: .email, placeHolder: "email@address.com", isValid: isEmailValid, text: $email)
                         .padding(.horizontal, 31)
                     
                     Spacer()
                     
-                    PrimaryButtonView(title: "다음", isDisabled: isButtonDisabled) {
+                    PrimaryButtonView(title: "다음", isDisabled: !isEmailValid) {
                         showPasswordView = true
                     }
                 }
