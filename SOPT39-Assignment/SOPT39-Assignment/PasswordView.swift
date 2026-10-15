@@ -9,6 +9,8 @@ import SwiftUI
 
 struct PasswordView: View {
     @State private var password = ""
+    @State private var nickname = ""
+    @State private var showSheet = false
     
     private var isButtonDisabled: Bool {
         password.isEmpty
@@ -39,25 +41,80 @@ struct PasswordView: View {
                     .padding(.bottom, 13)
                 
                 HStack(alignment: .center, spacing: 5) {
-                    Image(.enableOff)
+                    Image(.enable)
+                        .renderingMode(.template)
                         .resizable()
                         .frame(width: 13, height: 13)
+                    
                     Text("영문, 숫자, 특수문자 포함 10글자 이상")
                         .font(.body2)
-                        .foregroundStyle(.gray300)
                 }
+                .foregroundStyle(isButtonDisabled ? .gray300 : .customGreen)
                 .padding(.horizontal, 35)
                 .padding(.bottom, 40)
                 
                 Button {
-                    // nickname
+                    showSheet = true
                 } label: {
-                    Text("닉네임 설정")
+                    Text(nickname.isEmpty ? "닉네임 설정" : nickname)
                         .font(.body2)
                         .foregroundStyle(.gray300)
                         .underline()
                 }
                 .frame(maxWidth: .infinity)
+                .sheet(isPresented: $showSheet) {
+                    ZStack {
+                        Color.darkGreen.ignoresSafeArea(.all)
+                        
+                        VStack(alignment: .leading, spacing: 19) {
+                            
+                            Text("닉네임을 입력해주세요")
+                                .font(.subhead1)
+                                .foregroundStyle(.white)
+                                .padding(.top, 42)
+                                .padding(.horizontal, 22)
+                            
+                            TextField(
+                                "nickname",
+                                text: $nickname,
+                                prompt: Text("닉네임")
+                                    .font(.body2)
+                                    .foregroundStyle(.gray250)
+                            )
+                                .font(.body2)
+                                .textContentType(.nickname)
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled()
+                                .padding(.horizontal, 15)
+                                .frame(height: 47)
+                                .frame(maxWidth: .infinity)
+                                .background(.white)
+                                .clipShape(
+                                    RoundedRectangle(cornerRadius: 10)
+                                )
+                                .padding(.horizontal, 29)
+                            
+                            Spacer()
+                            
+                            Button {
+                                showSheet = false
+                            } label: {
+                                Text("완료")
+                                    .font(.medium)
+                                    .foregroundStyle(.starbucksGreen)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 56)
+                                    .background(.white)
+                                    .clipShape(
+                                        RoundedRectangle(cornerRadius: 10)
+                                    )
+                                    .padding(.bottom, 13)
+                            }
+                            .padding(.horizontal, 22)
+                        }
+                    }
+                    .presentationDetents([.fraction(0.4), .medium])
+                }
                 
                 Spacer()
                 
