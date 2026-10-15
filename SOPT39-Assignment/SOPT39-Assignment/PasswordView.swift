@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PasswordView: View {
+    let email: String
+    
     @State private var password = ""
     @State private var nickname = ""
     @State private var showSheet = false
@@ -29,7 +31,7 @@ struct PasswordView: View {
                     .padding(.top, 109)
                     .padding(.horizontal, 30)
                 
-                Text("leesangyup@sopt.com로 가입중")
+                Text("\(email)로 가입중")
                     .font(.body1)
                     .foregroundStyle(.gray250)
                     .tint(.gray250)
@@ -125,8 +127,4 @@ struct PasswordView: View {
             
         }
     }
-}
-
-#Preview {
-    PasswordView()
 }
