@@ -13,6 +13,7 @@ struct PasswordView: View {
     @State private var password = ""
     @State private var nickname = ""
     @State private var showSheet = false
+    @State private var showWelcomeView = false
     
     private var isButtonDisabled: Bool {
         password.isEmpty
@@ -121,10 +122,12 @@ struct PasswordView: View {
                 Spacer()
                 
                 PrimaryButtonView(title: "가입하기", isDisabled: isButtonDisabled) {
-                    // signup
+                    showWelcomeView = true
                 }
             }
-            
+        }
+        .navigationDestination(isPresented: $showWelcomeView) {
+            WelcomeView(nickname: nickname)
         }
     }
 }

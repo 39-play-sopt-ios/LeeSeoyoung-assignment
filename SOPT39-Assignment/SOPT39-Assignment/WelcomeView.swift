@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    let nickname: String
+    
     var body: some View {
         ZStack {
             Color.darkGreen.ignoresSafeArea(.all)
@@ -21,7 +23,7 @@ struct WelcomeView: View {
                     .padding(.top, 69)
                     .padding(.bottom, 93)
                 
-                Text("00님\n가입을 환영합니다!")
+                Text("\(nickname)님\n가입을 환영합니다!")
                     .font(.head2)
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
@@ -46,8 +48,4 @@ struct WelcomeView: View {
             }
         }
     }
-}
-
-#Preview {
-    WelcomeView()
 }
