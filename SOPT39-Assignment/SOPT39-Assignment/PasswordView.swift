@@ -30,7 +30,7 @@ struct PasswordView: View {
                     .padding(.bottom, 44)
                     .padding(.horizontal, 30)
                 
-                TextField(
+                SecureField(
                     "password",
                     text: $password,
                     prompt: Text("비밀번호 입력")
@@ -38,8 +38,7 @@ struct PasswordView: View {
                         .foregroundStyle(.gray250)
                 )
                     .font(.body2)
-                    .textContentType(.emailAddress)
-                    .keyboardType(.emailAddress)
+                    .textContentType(.password)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
                     .padding(.horizontal, 15)
