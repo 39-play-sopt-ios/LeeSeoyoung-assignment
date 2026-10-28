@@ -16,6 +16,10 @@ struct LoginView: View {
         Anchor.startOfSubject
         
         OneOrMore(.word)
+        ZeroOrMore {
+            CharacterClass(.anyOf(".-"))
+            OneOrMore(.word)
+        }
         
         "@"
         
