@@ -55,7 +55,7 @@ struct MainTabBar: View {
                 Image(selectedTab == tab ? "\(systemImage)-green" : "\(systemImage)-grey")
                 Text(title)
                     .font(.body1)
-                    .foregroundStyle(.gray350)
+                    .foregroundStyle(selectedTab == tab ? .starbucksGreen : .gray350)
             }
             .padding(.horizontal)
         }
