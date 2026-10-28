@@ -9,12 +9,18 @@ import SwiftUI
 
 struct TopNavigationView: View {
     let isChildView: Bool
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         HStack {
             if (isChildView) {
-                Image(.chevronLeftGrey)
-                    .resizable()
-                    .frame(width: 21, height: 21)
+                Button {
+                    dismiss()
+                } label: {
+                    Image(.chevronLeftGrey)
+                        .resizable()
+                        .frame(width: 21, height: 21)
+                }
             }
             Spacer()
             Image(.searchGrey)
