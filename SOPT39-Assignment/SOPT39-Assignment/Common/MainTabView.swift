@@ -17,6 +17,7 @@ enum MainTab: Hashable {
 
 struct MainTabView: View {
     @State private var selectedTab: MainTab = .order
+    @State private var isTabBarHidden = false
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -29,7 +30,7 @@ struct MainTabView: View {
                     .tag(MainTab.pay)
                     .toolbar(.hidden, for: .tabBar)
 
-                OrderView()
+                OrderView(isTabBarHidden: $isTabBarHidden)
                     .tag(MainTab.order)
                     .toolbar(.hidden, for: .tabBar)
                 
@@ -42,7 +43,9 @@ struct MainTabView: View {
                     .toolbar(.hidden, for: .tabBar)
             }
 
-            MainTabBar(selectedTab: $selectedTab)
+            if (!isTabBarHidden) {
+                MainTabBar(selectedTab: $selectedTab)
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MenuListView: View {
     let categoryName: String
+    @Binding var isTabBarHidden: Bool
     @State private var viewModel = MenuViewModel()
     
     var body: some View {
@@ -32,7 +33,9 @@ struct MenuListView: View {
                 menuImage: menu.imageName,
                 korName: menu.korName,
                 engName: menu.engName,
-                price: menu.price
+                price: menu.price,
+                description: menu.description,
+                isTabBarHidden: $isTabBarHidden
             )
             .toolbar(.hidden, for: .navigationBar)
         } label: {

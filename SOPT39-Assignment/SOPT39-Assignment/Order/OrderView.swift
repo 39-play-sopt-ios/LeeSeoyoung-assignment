@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OrderView: View {
     @State private var viewModel = OrderCategoryViewModel()
+    @Binding var isTabBarHidden: Bool
     
     var body: some View {
         NavigationStack {
@@ -39,8 +40,11 @@ struct OrderView: View {
                 
                 List(viewModel.categories) { category in
                     NavigationLink {
-                        MenuListView(categoryName: category.categoryName)
-                            .toolbar(.hidden, for: .navigationBar)
+                        MenuListView(
+                            categoryName: category.categoryName,
+                            isTabBarHidden: $isTabBarHidden
+                        )
+                        .toolbar(.hidden, for: .navigationBar)
                     } label: {
                         CategoryListRowView(
                             image: category.thumbnailImageName,
@@ -62,8 +66,4 @@ struct OrderView: View {
             }
         }
     }
-}
-
-#Preview {
-    OrderView()
 }
