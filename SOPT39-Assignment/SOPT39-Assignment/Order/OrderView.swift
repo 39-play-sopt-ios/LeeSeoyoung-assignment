@@ -12,6 +12,13 @@ struct OrderView: View {
     @State private var selectedTab: MenuTab = .all
     @Binding var isTabBarHidden: Bool
     
+    @State private var menuViewModel = MenuViewModel()
+    private var likedMenuIndices: [Int] {
+        menuViewModel.menus.indices.filter {
+            menuViewModel.menus[$0].isLiked
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 0) {
@@ -45,7 +52,8 @@ struct OrderView: View {
                         NavigationLink {
                             MenuListView(
                                 categoryName: category.categoryName,
-                                isTabBarHidden: $isTabBarHidden
+                                isTabBarHidden: $isTabBarHidden,
+                                viewModel: $menuViewModel
                             )
                             .toolbar(.hidden, for: .navigationBar)
                         } label: {
@@ -65,17 +73,56 @@ struct OrderView: View {
                         .listRowSeparator(.hidden)
                         .padding(.bottom, category.id == viewModel.categories.last?.id ? 150 : 0)
                     }
+                    .navigationLinkIndicatorVisibility(.hidden)
                     .listStyle(.plain)
                     
                 case .mine:
-                    Text("등록된 나만의 메뉴가 없어요.\n즐겨 찾는 음료나 푸드를 나만의 메뉴로 등록하고\n빠르게 주문해 보세요.")
-                        .font(.pretendard(.regular, size: 14))
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(.gray300)
-                        .frame(maxWidth: .infinity)
-                        .padding(.horizontal, 16)
-                        .padding(.top, 43)
-                    Spacer()
+                    if (likedMenuIndices.isEmpty) {
+                        Text("등록된 나만의 메뉴가 없어요.\n즐겨 찾는 음료나 푸드를 나만의 메뉴로 등록하고\n빠르게 주문해 보세요.")
+                            .font(.pretendard(.regular, size: 14))
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.gray300)
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 16)
+                            .padding(.top, 43)
+                        Spacer()
+                    } else {
+                        List(likedMenuIndices, id: \.self) { index in
+                            let menu = menuViewModel.menus[index]
+                            
+                            NavigationLink {
+                                MenuDetailView(
+                                    menuImage: menu.imageName,
+                                    korName: menu.korName,
+                                    engName: menu.engName,
+                                    price: menu.price,
+                                    description: menu.description,
+                                    isLiked: $menuViewModel.menus[index].isLiked,
+                                    isTabBarHidden: $isTabBarHidden
+                                )
+                                .toolbar(.hidden, for: .navigationBar)
+                            } label: {
+                                MenuListRowView(
+                                    image: menu.imageName,
+                                    korName: menu.korName,
+                                    engName: menu.engName,
+                                    price: menu.price,
+                                    isHeartVisible: true
+                                )
+                            }
+                            .listRowInsets(
+                                EdgeInsets(
+                                    top: 0,
+                                    leading: 18,
+                                    bottom: 0,
+                                    trailing: 0
+                                )
+                            )
+                            .listRowSeparator(.hidden)
+                        }
+                        .navigationLinkIndicatorVisibility(.hidden)
+                        .listStyle(.plain)
+                    }
                 }
             }
         }

@@ -10,7 +10,7 @@ import SwiftUI
 struct MenuListView: View {
     let categoryName: String
     @Binding var isTabBarHidden: Bool
-    @State private var viewModel = MenuViewModel()
+    @Binding var viewModel: MenuViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -20,6 +20,7 @@ struct MenuListView: View {
             List($viewModel.menus) { $menu in
                 menuRow(for: menu, isLiked: $menu.isLiked)
             }
+            .navigationLinkIndicatorVisibility(.hidden)
             .listStyle(.plain)
         }
     }
@@ -47,7 +48,8 @@ struct MenuListView: View {
                 image: menu.imageName,
                 korName: menu.korName,
                 engName: menu.engName,
-                price: menu.price
+                price: menu.price,
+                isHeartVisible: false
             )
         }
         .listRowInsets(

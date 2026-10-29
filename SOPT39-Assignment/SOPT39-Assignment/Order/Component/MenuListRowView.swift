@@ -12,6 +12,7 @@ struct MenuListRowView: View {
     let korName: String
     let engName: String
     let price: Int
+    let isHeartVisible: Bool
     
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
@@ -31,6 +32,13 @@ struct MenuListRowView: View {
                     .padding(.bottom, 10)
                 Text("\(price)원")
                     .font(.subhead3)
+            }
+            
+            if isHeartVisible {
+                Spacer()
+                Image(.favoriteFill)
+                    .padding(.bottom, 20)
+                    .padding(.trailing, 18)
             }
         }
     }
