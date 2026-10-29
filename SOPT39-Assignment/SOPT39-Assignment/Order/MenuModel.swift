@@ -13,4 +13,5 @@ struct MenuModel: Identifiable {
     let korName: String
     let engName: String
     let price: Int
+    let description: String
 }
