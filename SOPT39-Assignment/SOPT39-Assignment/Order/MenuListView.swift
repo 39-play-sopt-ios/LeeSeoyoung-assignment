@@ -17,14 +17,17 @@ struct MenuListView: View {
             TopNavigationView(isChildView: true)
             TitleHeaderView(title: categoryName)
             
-            List(viewModel.menus) { menu in
-                menuRow(for: menu)
+            List($viewModel.menus) { $menu in
+                menuRow(for: menu, isLiked: $menu.isLiked)
             }
             .listStyle(.plain)
         }
     }
     
-    private func menuRow(for menu: MenuModel) -> some View {
+    private func menuRow(
+        for menu: MenuModel,
+        isLiked: Binding<Bool>
+    ) -> some View {
         let isFirstMenu = menu.id == viewModel.menus.first?.id
         let isLastMenu = menu.id == viewModel.menus.last?.id
         
@@ -35,6 +38,7 @@ struct MenuListView: View {
                 engName: menu.engName,
                 price: menu.price,
                 description: menu.description,
+                isLiked: isLiked,
                 isTabBarHidden: $isTabBarHidden
             )
             .toolbar(.hidden, for: .navigationBar)

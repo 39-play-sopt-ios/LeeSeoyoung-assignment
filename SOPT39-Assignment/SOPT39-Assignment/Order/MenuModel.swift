@@ -14,4 +14,5 @@ struct MenuModel: Identifiable {
     let engName: String
     let price: Int
     let description: String
+    var isLiked: Bool
 }

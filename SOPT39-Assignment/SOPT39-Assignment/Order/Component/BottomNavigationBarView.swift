@@ -8,9 +8,16 @@
 import SwiftUI
 
 struct BottomNavigationBarView: View {
+    @Binding var isLiked: Bool
+    
     var body: some View {
         HStack(alignment: .center, spacing: 20) {
-            Image(.favoriteFill)
+            Button {
+                isLiked.toggle()
+            } label: {
+                isLiked ? Image(.favoriteFill) : Image(.favoriteEmpty)
+            }
+            
             Button {
                 // do something..
             } label: {

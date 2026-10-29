@@ -13,6 +13,7 @@ struct MenuDetailView: View {
     let engName: String
     let price: Int
     let description: String
+    @Binding var isLiked: Bool
     @Binding var isTabBarHidden: Bool
     
     var body: some View {
@@ -68,7 +69,7 @@ struct MenuDetailView: View {
                 
                 Spacer()
                 
-                BottomNavigationBarView()
+                BottomNavigationBarView(isLiked: $isLiked)
             }
             .ignoresSafeArea(edges: .top)
         }
