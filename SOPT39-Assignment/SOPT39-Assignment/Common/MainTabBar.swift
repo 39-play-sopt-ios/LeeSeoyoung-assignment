@@ -9,15 +9,36 @@ import SwiftUI
 
 struct MainTabBar: View {
     @Binding var selectedTab: MainTab
+    @State private var selectedStore = "성수역"
     var body: some View {
         VStack(spacing: 0) {
             if (selectedTab == .order) {
                 HStack(alignment: .center, spacing: 0) {
+                    Menu {
+                        Button("성수역") { selectedStore = "성수역" }
+                        Button("서울역") { selectedStore = "서울역" }
+                        Button("동탄역") { selectedStore = "동탄역" }
+                    } label: {
+                        VStack(spacing: 2) {
+                            HStack {
+                                Text(selectedStore)
+                                    .font(.pretendard(.medium, size: 13))
+                                    .foregroundStyle(.white)
+                                Spacer()
+                                Image(.chevronBottomWhite)
+                            }
+                            Rectangle()
+                                .fill(.gray300)
+                                .frame(height: 1)
+                                .frame(maxWidth: .infinity)
+                        }
+                    }
                     Spacer()
                     Image(.buyEmpty)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 9)
+                        .padding(.leading, 30)
                 }
+                .padding(.horizontal, 14)
+                .frame(height: 60)
                 .background(.customBlack)
             }
             
