@@ -8,24 +8,35 @@
 import SwiftUI
 
 struct MenuDetailView: View {
+    let menuImage: String
+    let korName: String
+    let engName: String
+    let price: Int
+    
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ZStack(alignment: .top) {
-                Image(.menu1)
+                Image(menuImage)
                     .resizable()
                     .scaledToFill()
                     .frame(height: 370)
                     .clipped()
                     
                 HStack {
-                    ZStack(alignment: .center) {
-                        Circle()
-                            .frame(width: 37, height: 37)
-                            .foregroundStyle(.black)
-                            .opacity(0.2)
-                        Image(.chevronLeftWhite)
-                            .resizable()
-                            .frame(width: 21, height: 21)
+                    Button {
+                        dismiss()
+                    } label: {
+                        ZStack(alignment: .center) {
+                            Circle()
+                                .frame(width: 37, height: 37)
+                                .foregroundStyle(.black)
+                                .opacity(0.2)
+                            Image(.chevronLeftWhite)
+                                .resizable()
+                                .frame(width: 21, height: 21)
+                        }
                     }
                     Spacer()
                     ZStack(alignment: .center) {
@@ -44,20 +55,20 @@ struct MenuDetailView: View {
             
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .center, spacing: 9) {
-                    Text("아이스 카스텔라 고구마 라떼")
+                    Text(korName)
                         .font(.head2)
                     Text("NEW")
                         .font(.subhead3)
                         .foregroundStyle(.mainGreen)
                         .padding(.vertical, 7)
                 }
-                Text("Iced Castella Sweet Potato Milk")
+                Text(engName)
                     .font(.body2)
                     .foregroundStyle(.gray300)
                 Text("가을에 잘 어울리는 군고구마를 한 잔에 담은 음료.\n포슬한 카스텔라, 쫀득한 펄이 어우러져 다채로운 식감을 즐길 수 있는 음료.")
                     .font(.pretendard(.regular, size: 14))
                     .padding(.vertical, 14)
-                Text("6,900원")
+                Text("\(price)원")
                     .font(.head2)
                     .padding(.vertical, 14)
             }
@@ -88,8 +99,4 @@ struct MenuDetailView: View {
         }
         .ignoresSafeArea(edges: .top)
     }
-}
-
-#Preview {
-    MenuDetailView()
 }

@@ -27,12 +27,22 @@ struct MenuListView: View {
         let isFirstMenu = menu.id == viewModel.menus.first?.id
         let isLastMenu = menu.id == viewModel.menus.last?.id
         
-        return MenuListRowView(
-            image: menu.imageName,
-            korName: menu.korName,
-            engName: menu.engName,
-            price: menu.price
-        )
+        return NavigationLink {
+            MenuDetailView(
+                menuImage: menu.imageName,
+                korName: menu.korName,
+                engName: menu.engName,
+                price: menu.price
+            )
+            .toolbar(.hidden, for: .navigationBar)
+        } label: {
+            MenuListRowView(
+                image: menu.imageName,
+                korName: menu.korName,
+                engName: menu.engName,
+                price: menu.price
+            )
+        }
         .listRowInsets(
             EdgeInsets(
                 top: isFirstMenu ? 28 : 0,
