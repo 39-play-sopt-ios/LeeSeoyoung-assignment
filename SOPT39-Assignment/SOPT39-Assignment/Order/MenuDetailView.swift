@@ -69,7 +69,7 @@ struct MenuDetailView: View {
                 
                 Spacer()
                 
-                BottomNavigationBarView(isLiked: $isLiked)
+                BottomActionBarView(isLiked: $isLiked)
             }
             .ignoresSafeArea(edges: .top)
         }

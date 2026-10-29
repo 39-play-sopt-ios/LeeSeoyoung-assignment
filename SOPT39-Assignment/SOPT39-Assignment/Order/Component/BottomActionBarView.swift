@@ -1,5 +1,5 @@
 //
-//  BottomNavigationBarView.swift
+//  BottomActionBarView.swift
 //  SOPT39-Assignment
 //
 //  Created by Seoyoung Lee on 10/29/26.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BottomNavigationBarView: View {
+struct BottomActionBarView: View {
     @Binding var isLiked: Bool
     
     var body: some View {
