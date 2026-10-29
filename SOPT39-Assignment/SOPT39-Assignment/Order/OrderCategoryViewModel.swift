@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Observation
 
 struct OrderCategoryViewModel {
     private(set) var categories: [OrderCategoryModel] = [
