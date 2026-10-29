@@ -15,48 +15,12 @@ struct MenuDetailView: View {
     let description: String
     @Binding var isTabBarHidden: Bool
     
-    @Environment(\.dismiss) private var dismiss
-    
     var body: some View {
         GeometryReader { geometry in
             VStack {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 0) {
-                        ZStack(alignment: .top) {
-                            Image(menuImage)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(height: 370)
-                                .clipped()
-                            
-                            HStack {
-                                Button {
-                                    dismiss()
-                                } label: {
-                                    ZStack(alignment: .center) {
-                                        Circle()
-                                            .frame(width: 37, height: 37)
-                                            .foregroundStyle(.black)
-                                            .opacity(0.2)
-                                        Image(.chevronLeftWhite)
-                                            .resizable()
-                                            .frame(width: 21, height: 21)
-                                    }
-                                }
-                                Spacer()
-                                ZStack(alignment: .center) {
-                                    Circle()
-                                        .frame(width: 35, height: 35)
-                                        .foregroundStyle(.black)
-                                        .opacity(0.2)
-                                    Image(.shareWhite)
-                                        .resizable()
-                                        .frame(width: 16, height: 17)
-                                }
-                            }
-                            .padding(.horizontal, 21)
-                            .padding(.top, geometry.safeAreaInsets.top + 12)
-                        }
+                        HeroSectionView(menuImage: menuImage, topInset: geometry.safeAreaInsets.top)
                         
                         VStack(alignment: .leading, spacing: 0) {
                             HStack(alignment: .center, spacing: 9) {
@@ -104,24 +68,7 @@ struct MenuDetailView: View {
                 
                 Spacer()
                 
-                HStack(alignment: .center, spacing: 20) {
-                    Image(.favoriteFill)
-                    Button {
-                        // do something..
-                    } label: {
-                        Text("주문하기")
-                            .font(.subhead3)
-                            .foregroundStyle(.white)
-                            .padding(.vertical, 12)
-                            .frame(maxWidth: .infinity)
-                            .background(.starbucksGreen)
-                            .clipShape(.capsule)
-                    }
-                }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 14)
-                .background(.white)
-                .shadow(color: .black.opacity(0.1), radius: 13, x: 0, y: -2)
+                BottomNavigationBarView()
             }
             .ignoresSafeArea(edges: .top)
         }
