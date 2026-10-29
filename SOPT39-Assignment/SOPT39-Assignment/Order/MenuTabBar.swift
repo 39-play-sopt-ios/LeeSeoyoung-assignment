@@ -13,7 +13,7 @@ enum MenuTab: Hashable {
 }
 
 struct MenuTabBar: View {
-    @State private var selectedTab: MenuTab = .all
+    @Binding var selectedTab: MenuTab
     
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
@@ -56,8 +56,4 @@ struct MenuTabBar: View {
             Rectangle().fill(.gray.opacity(0.25)).frame(height: 1)
         }
     }
-}
-
-#Preview {
-    MenuTabBar()
 }

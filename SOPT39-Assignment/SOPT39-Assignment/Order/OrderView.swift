@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OrderView: View {
     @State private var viewModel = OrderCategoryViewModel()
+    @State private var selectedTab: MenuTab = .all
     @Binding var isTabBarHidden: Bool
     
     var body: some View {
@@ -18,51 +19,64 @@ struct OrderView: View {
                 
                 TitleHeaderView(title: "Order")
                 
-                MenuTabBar()
+                MenuTabBar(selectedTab: $selectedTab)
                 
-                HStack(alignment: .center, spacing: 28) {
-                    Text("음료")
-                        .font(.subhead4)
-                        .foregroundStyle(.black)
-                    Text("푸드")
-                        .font(.subhead4)
-                        .foregroundStyle(.gray300)
-                    Text("상품")
-                        .font(.subhead4)
-                        .foregroundStyle(.gray300)
-                }
-                .padding(.horizontal, 42)
-                .padding(.vertical, 18)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(alignment: .bottom) {
-                    Rectangle().fill(.gray.opacity(0.25)).frame(height: 1)
-                }
-                
-                List(viewModel.categories) { category in
-                    NavigationLink {
-                        MenuListView(
-                            categoryName: category.categoryName,
-                            isTabBarHidden: $isTabBarHidden
-                        )
-                        .toolbar(.hidden, for: .navigationBar)
-                    } label: {
-                        CategoryListRowView(
-                            image: category.thumbnailImageName,
-                            name: category.categoryName
-                        )
+                switch selectedTab {
+                case .all:
+                    HStack(alignment: .center, spacing: 28) {
+                        Text("음료")
+                            .font(.subhead4)
+                            .foregroundStyle(.black)
+                        Text("푸드")
+                            .font(.subhead4)
+                            .foregroundStyle(.gray300)
+                        Text("상품")
+                            .font(.subhead4)
+                            .foregroundStyle(.gray300)
                     }
-                    .listRowInsets(
-                        EdgeInsets(
-                            top: category.id == viewModel.categories.first?.id ? 26 : 0,
-                            leading: 28,
-                            bottom: 21,
-                            trailing: 0
+                    .padding(.horizontal, 42)
+                    .padding(.vertical, 18)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(alignment: .bottom) {
+                        Rectangle().fill(.gray.opacity(0.25)).frame(height: 1)
+                    }
+                    
+                    List(viewModel.categories) { category in
+                        NavigationLink {
+                            MenuListView(
+                                categoryName: category.categoryName,
+                                isTabBarHidden: $isTabBarHidden
+                            )
+                            .toolbar(.hidden, for: .navigationBar)
+                        } label: {
+                            CategoryListRowView(
+                                image: category.thumbnailImageName,
+                                name: category.categoryName
+                            )
+                        }
+                        .listRowInsets(
+                            EdgeInsets(
+                                top: category.id == viewModel.categories.first?.id ? 26 : 0,
+                                leading: 28,
+                                bottom: 21,
+                                trailing: 0
+                            )
                         )
-                    )
-                    .listRowSeparator(.hidden)
-                    .padding(.bottom, category.id == viewModel.categories.last?.id ? 150 : 0)
+                        .listRowSeparator(.hidden)
+                        .padding(.bottom, category.id == viewModel.categories.last?.id ? 150 : 0)
+                    }
+                    .listStyle(.plain)
+                    
+                case .mine:
+                    Text("등록된 나만의 메뉴가 없어요.\n즐겨 찾는 음료나 푸드를 나만의 메뉴로 등록하고\n빠르게 주문해 보세요.")
+                        .font(.pretendard(.regular, size: 14))
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.gray300)
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 43)
+                    Spacer()
                 }
-                .listStyle(.plain)
             }
         }
     }
