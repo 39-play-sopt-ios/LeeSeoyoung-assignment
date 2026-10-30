@@ -13,6 +13,7 @@ struct OrderView: View {
     @Binding var isTabBarHidden: Bool
     
     @State private var menuViewModel = MenuViewModel()
+    @State private var selectedLikedMenuID: UUID?
     private var likedMenuIndices: [Int] {
         menuViewModel.menus.indices.filter {
             menuViewModel.menus[$0].isLiked
@@ -90,17 +91,8 @@ struct OrderView: View {
                         List(likedMenuIndices, id: \.self) { index in
                             let menu = menuViewModel.menus[index]
                             
-                            NavigationLink {
-                                MenuDetailView(
-                                    menuImage: menu.imageName,
-                                    korName: menu.korName,
-                                    engName: menu.engName,
-                                    price: menu.price,
-                                    description: menu.description,
-                                    isLiked: $menuViewModel.menus[index].isLiked,
-                                    isTabBarHidden: $isTabBarHidden
-                                )
-                                .toolbar(.hidden, for: .navigationBar)
+                            Button {
+                                selectedLikedMenuID = menu.id
                             } label: {
                                 MenuListRowView(
                                     image: menu.imageName,
@@ -110,6 +102,7 @@ struct OrderView: View {
                                     isHeartVisible: true
                                 )
                             }
+                            .buttonStyle(.plain)
                             .listRowInsets(
                                 EdgeInsets(
                                     top: 0,
@@ -123,6 +116,22 @@ struct OrderView: View {
                         .navigationLinkIndicatorVisibility(.hidden)
                         .listStyle(.plain)
                     }
+                }
+            }
+            .navigationDestination(item: $selectedLikedMenuID) { menuID in
+                if let index = menuViewModel.menus.firstIndex(where: { $0.id == menuID }) {
+                    let menu = menuViewModel.menus[index]
+
+                    MenuDetailView(
+                        menuImage: menu.imageName,
+                        korName: menu.korName,
+                        engName: menu.engName,
+                        price: menu.price,
+                        description: menu.description,
+                        isLiked: $menuViewModel.menus[index].isLiked,
+                        isTabBarHidden: $isTabBarHidden
+                    )
+                    .toolbar(.hidden, for: .navigationBar)
                 }
             }
         }
