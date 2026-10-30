@@ -42,22 +42,14 @@ struct MainTabBar: View {
                 .background(.customBlack)
             }
             
-            HStack(alignment: .center) {
+            HStack(alignment: .center, spacing: 0) {
                 tabButton(title: "Home", systemImage: "home", tab: .home)
-                
-                Spacer()
                 
                 tabButton(title: "Pay", systemImage: "pay", tab: .pay)
                 
-                Spacer()
-                
                 tabButton(title: "Order", systemImage: "order", tab: .order)
                 
-                Spacer()
-                
                 tabButton(title: "Gift", systemImage: "gift", tab: .gift)
-                
-                Spacer()
                 
                 tabButton(title: "Other", systemImage: "other", tab: .other)
             }
@@ -77,8 +69,12 @@ struct MainTabBar: View {
                 Text(title)
                     .font(.body1)
                     .foregroundStyle(selectedTab == tab ? .starbucksGreen : .gray350)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.85)
             }
-            .padding(.horizontal)
+            .frame(maxWidth: .infinity)
         }
+        .buttonStyle(.plain)
+        .frame(maxWidth: .infinity)
     }
 }
